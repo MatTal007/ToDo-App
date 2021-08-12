@@ -12,16 +12,10 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.text_field :zadanie, class: 'form-control'%>
+    <%= form.text_field :zadanie, class: "form-control"  %>
   </div>
 <br/>
-  <div class="form-group">
-        <%= form.check_box :wykonane %>
-        <%= form.label :wykonane %>
-  </div>
-<br/>
-  <div class="actions">
-    <%= form.submit "Zaktualizuj zadanie", class: "btn btn-success" %>
+  <div class="actions form-group">
+    <%= form.submit "Dodaj zadanie", class: "btn btn-outline-secondary" %>
   </div>
 <% end %>
-   

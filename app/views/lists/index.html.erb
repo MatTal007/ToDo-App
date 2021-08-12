@@ -1,29 +1,57 @@
 <p id="notice"><%= notice %></p>
+<center>
+  <h1>Lista zadań do wykonania!</h1>
 
-<h1>Lists</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Zadanie</th>
-      <th>Wykonanie</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="card" style="width: 18rem;">
+    <img src="do.png" class="card-img-top">
+    <div class="card-body">
+      <%= render 'form_index', list: @list %>
+    </div>
+  </div>
+</center>
+<br/><br/>
+<table class="table table-bordered">
 
   <tbody>
     <% @lists.each do |list| %>
-      <tr>
-        <td><%= list.zadanie %></td>
-        <td><%= list.wykonane %></td>
-        <td><%= link_to 'Wyświetl', list %></td>
-        <td><%= link_to 'Edytuj', edit_list_path(list) %></td>
-        <td><%= link_to 'Usuń', list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <% if list.wykonane %>
+        <tr class="table-success">
+          <td class="striker"><%= link_to list.zadanie, edit_list_path(list) %></td>
+          <td>
+            <%= form_with(model: list) do |form| %>
+               <%= form.text_field :zadanie, type: 'hidden' %>
+               <%= form.check_box :wykonane, :checked => false, :style => 'visibility: hidden' %>
+               <%= form.submit "Niewykonano", class: 'btn btn-outline-warning btn-sm' %>
+            <% end %>
+          </td>
+          <td>
+            <% link_to 'Wyświetl', list %>
+            <center><%= link_to 'Usuń', list, method: :delete, data: { confirm: 'Potwierdź usunięcie' }, class: 'btn btn-outline-danger btn-sm' %></center>
+          </td>
+        </tr>
+      <% else %>
+        <tr class="table-danger">
+          <td><%= link_to list.zadanie, edit_list_path(list) %></td>
+          <td>
+            <%= form_with(model: list) do |form| %>
+               <center>
+               <%= form.text_field :zadanie, type: 'hidden' %>
+               <%= form.check_box :wykonane, :checked => true, :style => 'visibility: hidden' %>
+               <%= form.submit "Wykonano", class: 'btn btn-outline-success btn-sm' %>
+               </center>
+            <% end %>
+          </td>
+          <td>
+            <% link_to 'Wyświetl', list %>
+            <center><%= link_to 'Usuń', list, method: :delete, data: { confirm: 'Potwierdź usunięcie' }, class: 'btn btn-outline-danger btn-sm' %></center>
+          </td>
+        </tr>
+
+      <% end %>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'Nowe zadanie', new_list_path %>
+<br/>
+<%= link_to 'Usuń wykonane zadania', home_trash_em_path, data: { confirm: 'Potwierdź usunięcie' }, class: "btn btn-primary" %>
+<%= link_to 'Usuń wszystkie zadania', home_trash_em_all_path, data: { confirm: 'Potwierdź usunięcie' }, class: "btn btn-danger" %>
