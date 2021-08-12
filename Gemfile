@@ -48,7 +48,7 @@ group :development do
   gem 'sqlite3', '~> 1.4'
 end
 
-group :development do
+group :production do
   gem 'pg', '~> 1.2', '>= 0.21.0'
   gem 'rails_12factor', '~> 0.0.3'
 end
